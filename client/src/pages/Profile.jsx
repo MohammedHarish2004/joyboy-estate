@@ -125,13 +125,27 @@ export default function Profile() {
       }
 
       dispatch(signOutUserSuccess(data))
-      
+
     }
 
     catch(error){
       dispatch(signOutUserFailure(error.message))
     }
   }
+
+  
+
+const handleShow = ()=>{
+  const pass = document.getElementById('password')
+  if(pass.type == 'password'){
+    pass.type = 'text'
+  }
+  else{
+    pass.type = 'password'
+  }
+}
+  
+
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-4xl text-center font-semibold my-7'>Profile</h1>
@@ -154,6 +168,10 @@ export default function Profile() {
         <input id='username' type="text" className='border rounded-lg p-3' placeholder='username' defaultValue={currentUser.username} onChange={handleChange}/>
         <input id='email' type="email" className='border rounded-lg p-3' placeholder='email' defaultValue={currentUser.email} onChange={handleChange}/>
         <input id='password' type="password" className='border rounded-lg p-3' placeholder='password' onChange={handleChange}/>
+        <div className='flex gap-2'>
+        <input type="checkbox" id='showPassword' onClick={handleShow} style={{accentColor:'rgb(51,65,85)'}}/>
+        <label htmlFor="showPassword" className='text-sm text-slate-700 font-medium'>Show password</label>
+        </div>
         <button disabled={loading} className='bg-slate-700 rounded-lg p-3 text-white uppercase font-semibold hover:opacity-90 disabled:opacity-80'>{loading ? 'Loading...' : 'Update'}</button>
       </form>
       {error && <p className='text-red-700 font-medium mt-3'>{error}</p>}

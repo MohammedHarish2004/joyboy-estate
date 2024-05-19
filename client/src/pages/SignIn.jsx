@@ -51,6 +51,16 @@ export default function SignIn() {
     }
   }
 
+  const handleShow = ()=>{
+    const pass = document.getElementById('password')
+    if(pass.type == 'password'){
+      pass.type = 'text'
+    }
+    else{
+      pass.type = 'password'
+    }
+  }
+
 
   return (
     <div className='p-3 max-w-lg mx-auto'>
@@ -58,6 +68,10 @@ export default function SignIn() {
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <input type="text" id='username' placeholder='username' className='border p-3 rounded-lg focus:outline-none' onChange={handleChange}/>
         <input type="password" id='password' placeholder='password' className='border p-3 rounded-lg focus:outline-none' onChange={handleChange}/>
+        <div className='flex gap-2'>
+        <input type="checkbox" id='showPassword' onClick={handleShow} style={{accentColor:'rgb(51,65,85)'}}/>
+          <label htmlFor="showPassword" className='text-sm text-slate-700 font-medium'>Show password</label>
+        </div>
         <button disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-90'>{loading ? 'Loading...' : 'Sign In'}</button>
         <OAuth />
       </form>
