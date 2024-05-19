@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
 import { app } from '../firebase';
-import { updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/userSlice';
+import { deleteUserFailure, deleteUserStart, deleteUserSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/userSlice';
 
 export default function Profile() {
   
@@ -86,6 +86,30 @@ export default function Profile() {
       dispatch(updateUserFailure(error.message))
     }
   }
+
+  const handleDelete = async ()=>{
+
+    try{
+      dispatch(deleteUserStart())
+
+      const res = await fetch(`/api/user/delete/${currentUser._id}`,{
+        method:"DELETE"
+      })
+
+      const data = await res.json()
+
+      if(data.success == false){
+        dispatch(deleteUserFailure(data.error))
+        return
+      }
+
+      dispatch(deleteUserSuccess(data))
+    }
+
+    catch(error){
+      dispatch(deleteUserFailure(error.message))
+    }
+  }
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-4xl text-center font-semibold my-7'>Profile</h1>
@@ -95,7 +119,7 @@ export default function Profile() {
       <img onClick={()=>fileRef.current.click()} src={formData.avatar || currentUser.avatar} className='rounded-full w-24 h-24 object-cover self-center cursor-pointer' alt="profile" />
       <p className='text-center'>
         {fileUploadError ?
-        ( <span className='text-red-500 text-sm text-center font-medium'>Image upload error</span> )
+        ( <span className='text-red-500 text-sm text-center font-medium'>Only Image format less than 2 mb is allowed</span> )
         :
         filePerc > 0 && filePerc < 100 ?
         ( <span className='text-green-500 text-sm text-center font-medium'>{`Uploading ${filePerc}%`}</span> )
@@ -112,7 +136,7 @@ export default function Profile() {
       </form>
       {error && <p className='text-red-700 font-medium mt-3'>{error}</p>}
       <div className='flex justify-between mt-5'>
-        <p className='text-red-700 cursor-pointer font-semibold hover:underline'>Delete account</p>
+        <p onClick={handleDelete} className='text-red-700 cursor-pointer font-semibold hover:underline'>Delete account</p>
         <p className='text-red-700 cursor-pointer font-semibold hover:underline'>Sign Out</p>
       </div>
     </div>
