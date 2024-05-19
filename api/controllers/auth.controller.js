@@ -6,14 +6,14 @@ import { errorHandler } from "../utils/error.js"
 export const signUp = async (req,res,next)=>{
 
   try{
-    const {username,email,password} = req.body
-    const hashedPassword = bcryptjs.hashSync(password,10) 
-    const newUser = new User({username,email,password:hashedPassword})
-    await newUser.save()
-    res.status(200).json('User created successfully')
+    const {username,email,password} = req.body // Extract Data from Request Body
+    const hashedPassword = await bcryptjs.hashSync(password,10) // Hash the Password
+    const newUser = new User({username,email,password:hashedPassword}) // Create a New User Object
+    await newUser.save() //Save the New User to the Database
+    res.status(200).json('User created successfully') //Send Success Response
   }
   catch(error){
-    next(error)
+    next(error) //Error Handling
   }
 
 }
