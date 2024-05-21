@@ -196,19 +196,23 @@ const handleShow = ()=>{
       <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
         <input type="file" ref={fileRef} hidden accept='images/*' onChange={(e)=>setFile(e.target.files[0])}/>
 
+     <div className='flex flex-col mx-auto'>
       <img onClick={()=>fileRef.current.click()} src={formData.avatar || currentUser.avatar} className='rounded-full w-24 h-24 object-cover self-center cursor-pointer' alt="profile" />
-      <p className='text-center'>
-        {fileUploadError ?
-        ( <span className='text-red-500 text-sm text-center font-medium'>Only Image format less than 2 mb is allowed</span> )
-        :
-        filePerc > 0 && filePerc < 100 ?
-        ( <span className='text-green-500 text-sm text-center font-medium'>{`Uploading ${filePerc}%`}</span> )
-        :
-        filePerc === 100 ?
-        ( <span className='text-green-500 text-sm text-center font-medium'>Image uploaded successfully</span> ) :
-          ""
-        }
-      </p>
+        <p className='text-center'>
+          {fileUploadError ?
+          ( <span className='text-red-500 text-sm text-center font-medium'>Only Image format less than 2 mb is allowed</span> )
+          :
+          filePerc > 0 && filePerc < 100 ?
+            <div className="progress-container ">
+              <div className="progress-bar " style={{ width: `${filePerc}%` }} ></div>
+            </div>
+          :
+          filePerc === 100 ?
+          ( <span className='text-green-500 text-sm text-center font-medium'>Image uploaded successfully</span> ) :
+            ""
+          }
+        </p>
+     </div>
         <input id='username' type="text" className='border rounded-lg p-3' placeholder='username' defaultValue={currentUser.username} onChange={handleChange}/>
         <input id='email' type="email" className='border rounded-lg p-3' placeholder='email' defaultValue={currentUser.email} onChange={handleChange}/>
         <input id='password' type="password" className='border rounded-lg p-3' placeholder='password' onChange={handleChange}/>
