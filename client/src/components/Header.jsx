@@ -8,10 +8,12 @@ export default function Header() {
   return (
     <header className='bg-slate-200 shadow-md'>
         <div className=' flex gap-1 justify-between items-center mx-auto max-w-6xl p-3'>
+          <Link to='/'>
             <h1 className='flex flex-wrap font-bold text-sm sm:text-xl '>
-                <span className='text-green-700'>JoyBoy</span>
+                <span className='text-red-600'>JoyBoy</span>
                 <span className='text-slate-700'>Estate</span>
             </h1>
+          </Link>
             <form className='bg-slate-100 rounded-lg p-2  sm:p-3 '>
                 <input type="text" placeholder='Search...' className='bg-transparent border-none outline-none'/>
             </form>

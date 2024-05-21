@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     avatar:{
         type:String,
-        default:'https://cdn-icons-png.freepik.com/512/10302/10302971.png'
+        default:'https://www.shareicon.net/data/2016/09/01/822739_user_512x512.png'
     }
 },{timestamps:true})
 

@@ -78,8 +78,8 @@
           <input type="email" id='email' placeholder='email' className='border p-3 rounded-lg focus:outline-none' onChange={handleChange}/>
           <input type="password" id='password' placeholder='password' className='border p-3 rounded-lg focus:outline-none' onChange={handleChange}/>
           <div className='flex gap-2'>
-            <input type="checkbox" id='showPassword' onClick={handleShow} style={{accentColor:'rgb(51,65,85)'}}/>
-            <label htmlFor="showPassword" className='text-sm text-slate-700 font-medium'>Show password</label>
+            <input type="checkbox" id='showPassword' className='cursor-pointer' onClick={handleShow} style={{accentColor:'rgb(51,65,85)'}}/>
+            <label htmlFor="showPassword" className='text-sm text-slate-700 font-medium cursor-pointer'>Show password</label>
           </div>
           <button disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-90'>{loading ? 'Loading...' : 'Sign Up'}</button>
         </form>

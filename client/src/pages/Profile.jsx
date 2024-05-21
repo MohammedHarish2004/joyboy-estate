@@ -212,8 +212,8 @@ const handleShow = ()=>{
         <input id='email' type="email" className='border rounded-lg p-3' placeholder='email' defaultValue={currentUser.email} onChange={handleChange}/>
         <input id='password' type="password" className='border rounded-lg p-3' placeholder='password' onChange={handleChange}/>
         <div className='flex gap-2'>
-        <input type="checkbox" id='showPassword' onClick={handleShow} style={{accentColor:'rgb(51,65,85)'}}/>
-        <label htmlFor="showPassword" className='text-sm text-slate-700 font-medium'>Show password</label>
+        <input type="checkbox" id='showPassword' className='cursor-pointer' onClick={handleShow} style={{accentColor:'rgb(51,65,85)'}}/>
+        <label htmlFor="showPassword" className='text-sm text-slate-700 font-medium cursor-pointer'>Show password</label>
         </div>
         <button disabled={loading} className='bg-slate-700 rounded-lg p-3 text-white uppercase font-semibold hover:opacity-90 disabled:opacity-80'>{loading ? 'Loading...' : 'Update'}</button>
       </form>
