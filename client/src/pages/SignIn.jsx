@@ -3,12 +3,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { signInFailure, signInStart, signInSuccess } from '../redux/userSlice'
 import OAuth from '../components/OAuth'
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 export default function SignIn() {
 
   const [formData,setFormData] = useState({})
   
   const {loading,error} = useSelector(state=>state.user)
+
+  const [invalidError ,setInvalidError] = useState('')
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -25,6 +29,7 @@ export default function SignIn() {
     e.preventDefault();
 
     try{
+
       dispatch(signInStart())
 
       const res = await fetch('/api/auth/signin',{
@@ -43,6 +48,13 @@ export default function SignIn() {
       }
 
      dispatch(signInSuccess(data))
+     iziToast.success({
+      icon: 'fas fa-check-circle',
+      message: '<b>Signed in successfully!</b>',
+      position: 'topRight',
+      timeout:1500
+
+    });
       navigate('/')
     }
 
@@ -60,6 +72,8 @@ export default function SignIn() {
       pass.type = 'password'
     }
   }
+
+  
 
 
   return (
@@ -81,7 +95,8 @@ export default function SignIn() {
           <p className='text-blue-700 hover:underline'>Sign Up</p>
         </Link>
       </div>
-      {error && <p className='text-red-700'>{error}</p>}
+      {error && <p className='text-red-700 mt-2 font-medium'>{error}</p>}
+
     </div>
   )
 }

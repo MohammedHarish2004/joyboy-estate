@@ -3,6 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
 import { app } from '../firebase';
 import { deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserFailure, signOutUserStart, signOutUserSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/userSlice';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+import Swal from 'sweetalert2';
+
 
 export default function Profile() {
   
@@ -78,6 +82,12 @@ export default function Profile() {
         return
       }
 
+      iziToast.success({
+        icon: 'fas fa-check-circle',
+        message: '<b>Updated successfully!</b>',
+        position: 'topRight',
+        timeout:1500
+      });
       dispatch(updateUserSuccess(data))
 
     }
@@ -89,50 +99,83 @@ export default function Profile() {
 
   const handleDelete = async ()=>{
 
-    try{
-      dispatch(deleteUserStart())
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete !'
+    }).then(async(result)=>{
 
-      const res = await fetch(`/api/user/delete/${currentUser._id}`,{
-        method:"DELETE"
-      })
+      if(result.isConfirmed){
+        try{
+          dispatch(deleteUserStart())
+    
+          const res = await fetch(`/api/user/delete/${currentUser._id}`,{
+            method:"DELETE"
+          })
+    
+          const data = await res.json()
+    
+          if(data.success == false){
+            dispatch(deleteUserFailure(data.error))
+            return
+          }
+          iziToast.success({
+            icon: 'fas fa-check-circle',
+            message: '<b>Account deleted successfully!</b>',
+            position: 'topRight',
+            timeout:1500
 
-      const data = await res.json()
-
-      if(data.success == false){
-        dispatch(deleteUserFailure(data.error))
-        return
+          });
+          dispatch(deleteUserSuccess(data))
+        }
+    
+        catch(error){
+          dispatch(deleteUserFailure(error.message))
+        }
       }
 
-      dispatch(deleteUserSuccess(data))
-    }
-
-    catch(error){
-      dispatch(deleteUserFailure(error.message))
-    }
+    })
+    
   }
 
-  const handleSignOut = async ()=>{
+  const handleSignOut = async () => {
+  
+    Swal.fire({
+      title: 'Are you sure want to sign out?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, sign out!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          dispatch(signOutUserStart());
+  
+          const res = await fetch('/api/auth/signout');
+          const data = await res.json();
+  
+          if (data.success === false) {
+            dispatch(signOutUserFailure(data.error));
+          } 
+            dispatch(signOutUserSuccess(data));
+            iziToast.success({
+              icon: 'fas fa-check-circle',
+              message: '<b>Signed out successfully!</b>',
+              position: 'topRight',
+              timeout:1500
 
-    try{
-      dispatch(signOutUserStart())
-
-      const res = await fetch('/api/auth/signout')
-
-      const data = await res.json()
-
-      if(data.success == false){
-        dispatch(signOutUserFailure(data.error))
+            });
+        } catch (error) {
+          dispatch(signOutUserFailure(error.message));
+        }
       }
-
-      dispatch(signOutUserSuccess(data))
-
-    }
-
-    catch(error){
-      dispatch(signOutUserFailure(error.message))
-    }
-  }
-
+    });
+  };
   
 
 const handleShow = ()=>{

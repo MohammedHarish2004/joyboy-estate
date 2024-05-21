@@ -1,5 +1,7 @@
   import React, { useState } from 'react'
   import { Link, useNavigate } from 'react-router-dom'
+  import iziToast from 'izitoast';
+  import 'izitoast/dist/css/iziToast.min.css';
 
   export default function SignUp() {
 
@@ -42,6 +44,13 @@
 
         setLoading(false)
         setError(null)
+        iziToast.success({
+          icon: 'fas fa-check-circle',
+          message: '<b>Signed up successfully!</b>',
+          position: 'topRight',
+          timeout:1500
+
+        });
         navigate('/sign-in')
       }
 
@@ -80,7 +89,7 @@
             <p className='text-blue-700 hover:underline'>Sign In</p>
           </Link>
         </div>
-        {error && <p className='text-red-700'>{error}</p>}
+        {error && <p className='text-red-700 mt-2 font-medium'>{error}</p>}
       </div>
     )
   }

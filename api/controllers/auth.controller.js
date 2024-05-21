@@ -6,6 +6,7 @@ import { errorHandler } from "../utils/error.js"
 export const signUp = async (req,res,next)=>{
 
   try{
+
     const {username,email,password} = req.body // Extract Data from Request Body
     const hashedPassword = await bcryptjs.hashSync(password,10) // Hash the Password
     const newUser = new User({username,email,password:hashedPassword}) // Create a New User Object
@@ -13,7 +14,11 @@ export const signUp = async (req,res,next)=>{
     res.status(200).json('User created successfully') //Send Success Response
   }
   catch(error){
-    next(error) //Error Handling
+    if (error.code === 11000) { // Check for duplicate key error
+      next(errorHandler(409, 'Username / Email already exists')); // Return custom error message
+    } else {
+      next(error); // Handle other errors
+    }
   }
 
 }
@@ -23,7 +28,7 @@ export const signIn = async (req,res,next)=>{
   const {username,password} = req.body
 
   try{
-    
+
   const validUser = await User.findOne({username})
   if(!validUser) return next(errorHandler(201,'Invalid username'))
 
