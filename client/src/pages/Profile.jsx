@@ -6,6 +6,7 @@ import { deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserFailu
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import Swal from 'sweetalert2';
+import {Link} from 'react-router-dom'
 
 
 export default function Profile() {
@@ -190,9 +191,9 @@ const handleShow = ()=>{
   
 
   return (
-    <div className='p-3 max-w-lg mx-auto'>
-      <h1 className='text-4xl text-center font-semibold my-7'>Profile</h1>
-      <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+    <div className='p-5 sm:p-4 max-w-lg mx-auto'>
+      <h1 className='text-3xl text-center font-semibold my-4'>Profile</h1>
+      <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
         <input type="file" ref={fileRef} hidden accept='images/*' onChange={(e)=>setFile(e.target.files[0])}/>
 
       <img onClick={()=>fileRef.current.click()} src={formData.avatar || currentUser.avatar} className='rounded-full w-24 h-24 object-cover self-center cursor-pointer' alt="profile" />
@@ -216,7 +217,11 @@ const handleShow = ()=>{
         <label htmlFor="showPassword" className='text-sm text-slate-700 font-medium cursor-pointer'>Show password</label>
         </div>
         <button disabled={loading} className='bg-slate-700 rounded-lg p-3 text-white uppercase font-semibold hover:opacity-90 disabled:opacity-80'>{loading ? 'Loading...' : 'Update'}</button>
+        <Link className='bg-green-700 text-white p-3 rounded-lg text-center uppercase hover:opacity-95 font-semibold' to='/create-listing'>
+          Create Listing
+        </Link>
       </form>
+
       {error && <p className='text-red-700 font-medium mt-3'>{error}</p>}
       <div className='flex justify-between mt-5'>
         <p onClick={handleDelete} className='text-red-700 cursor-pointer font-semibold hover:underline'>Delete account</p>
