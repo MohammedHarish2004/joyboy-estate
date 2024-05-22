@@ -9,6 +9,7 @@ import Header from './components/Header'
 import PrivateRoute from './components/PrivateRoute'
 import Missing from './components/Missing'
 import CreateListing from './pages/CreateListing'
+import Dummy from './pages/Dummy'
 export default function App() {
   return (
     <BrowserRouter>
@@ -22,6 +23,7 @@ export default function App() {
         <Route path='/about' element={<About/>}/>
         <Route path='/sign-in' element={<SignIn/>}/>
         <Route path='/sign-up' element={<SignUp/>}/>
+        <Route path='/dummy' element={<Dummy/>}/>
         <Route path='*' element={<Missing/>}/>
       </Routes>
     </BrowserRouter>
