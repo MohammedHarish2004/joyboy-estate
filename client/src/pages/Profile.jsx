@@ -222,7 +222,40 @@ useEffect(() => {
   }
 }, [userListings])
 
+const handleListingDelete = async(listingId,listingName)=>{
 
+    Swal.fire({
+      title: `Are you sure want to delete`,
+      html:`<i>${listingName}?</i>`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+
+      try {
+          const res = await fetch(`/api/listing/delete/${listingId}`,{
+              method:"DELETE"
+            }
+          )
+
+          const data = await res.json()
+
+          if(data.success == false){
+            return
+          }
+
+          setUserListings((prev)=>prev.filter((listing)=> listing._id !== listingId))
+      } 
+      
+      catch (error) {
+      console.log(error.message);  
+      }
+    }
+  })
+}
   return (
     <div className='p-5 sm:p-4 max-w-lg mx-auto'>
       <h1 className='text-3xl text-center font-semibold my-4'>Profile</h1>
@@ -283,7 +316,7 @@ useEffect(() => {
          </Link>
 
          <div className='flex flex-col items-center gap-4'>
-          <p className='text-red-700 font-medium uppercase'>Delete</p>
+          <p onClick={()=>handleListingDelete(listing._id,listing.name)} className='text-red-700 font-medium uppercase hover:underline cursor-pointer'>Delete</p>
           <p className='text-green-700 font-medium uppercase'>Edit</p>
          </div>
         </div>
