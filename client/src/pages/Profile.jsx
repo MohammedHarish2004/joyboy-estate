@@ -20,6 +20,9 @@ export default function Profile() {
   const [filePerc,setFilePerc] = useState(0)
   const [fileUploadError,setFileUploadError] = useState(false)
   const {loading,error} = useSelector(state=>state.user)
+  const [showListingError,setShowListingError] = useState(false)
+  const [userListings,setUserListings] = useState({})
+  const ScrollRef = useRef();
 
   console.log(formData);
 
@@ -190,6 +193,36 @@ const handleShow = ()=>{
 }
   
 
+const  handleShowListings = async ()=>{
+
+  try {
+    setShowListingError(false)
+
+    const res = await fetch(`/api/user/listings/${currentUser._id}`)
+    
+    const data = await res.json()
+
+    if(data.success == false){
+      setShowListingError(true)
+      return
+    }
+    setUserListings(data)
+    setShowListingError(false)
+  } 
+
+  catch (error) {
+    setShowListingError(true)
+  
+  }
+}
+
+useEffect(() => {
+  if (userListings.length > 0 ) {
+    ScrollRef.current.scrollIntoView({behavior: 'smooth'})
+  }
+}, [userListings])
+
+
   return (
     <div className='p-5 sm:p-4 max-w-lg mx-auto'>
       <h1 className='text-3xl text-center font-semibold my-4'>Profile</h1>
@@ -231,6 +264,36 @@ const handleShow = ()=>{
         <p onClick={handleDelete} className='text-red-700 cursor-pointer font-semibold hover:underline'>Delete account</p>
         <p onClick={handleSignOut} className='text-red-700 cursor-pointer font-semibold hover:underline'>Sign Out</p>
       </div>
+
+      <button onClick={handleShowListings} className='text-green-700 cursor-pointer font-semibold hover:underline w-full' >Show listings</button>
+
+      <p className='text-red-700 font-medium'>{showListingError ? 'Error showing lists' : ''}</p> 
+
+      {userListings && userListings.length > 0 && 
+
+        <div className='flex flex-col gap-4'>
+          <h1 className='text-center mt-6 text-2xl font-semibold' ref={ScrollRef}>Your Listings</h1>
+        {userListings.map((listing)=>
+        <div key={listing._id} className='flex justify-between items-center border rounded-lg my-4 gap-4 p-4'>
+         <Link to={`/listing/${listing._id}`}>
+          <img src={listing.imageUrls[0]} alt="listing image" className='w-16 h-16 object-contain' />
+         </Link>
+         <Link className='text-slate-700 font-semibold hover:underline truncate flex-1' to={`/listing/${listing._id}`}>
+          <p className='text-slate-700'>{listing.name}</p>
+         </Link>
+
+         <div className='flex flex-col items-center gap-4'>
+          <p className='text-red-700 font-medium uppercase'>Delete</p>
+          <p className='text-green-700 font-medium uppercase'>Edit</p>
+         </div>
+        </div>
+      )}
+
+        </div>
+      
+      }         
     </div>
+
+    
   )
 }
