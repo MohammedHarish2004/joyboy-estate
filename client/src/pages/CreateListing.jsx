@@ -235,7 +235,7 @@ export default function CreateListing() {
                 
                 <div className='flex gap-4'>
                     <input type="file" className='p-2 border border-gray-300 rounded w-full shadow-sm' onChange={(e)=>setFiles(e.target.files)} id='images' accept='image/*' multiple />
-                    <button type='button' onClick={handleImageSubmit} className='p-2 text-green-600 border border-green-600 rounded uppercase hover:bg-green-600 hover:text-white '>Upload</button>
+                    <button disabled={upload} type='button' onClick={handleImageSubmit} className='p-2 text-green-600 border border-green-600 rounded uppercase hover:bg-green-600 hover:text-white disabled:opacity-80'>{upload ? 'Uploading...' : 'Upload'}</button>
                 </div>
                 {upload && (
                     <div className="progress-container ">
