@@ -306,6 +306,7 @@ const handleListingDelete = async(listingId,listingName)=>{
 
         <div className='flex flex-col gap-4'>
           <h1 className='text-center mt-6 text-2xl font-semibold' ref={ScrollRef}>Your Listings</h1>
+          
         {userListings.map((listing)=>
         <div key={listing._id} className='flex justify-between items-center border rounded-lg my-4 gap-4 p-4'>
          <Link to={`/listing/${listing._id}`}>
