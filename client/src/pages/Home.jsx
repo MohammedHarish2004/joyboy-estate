@@ -73,9 +73,9 @@ export default function Home() {
   return (
     <div>
       {/* top */}
-      <div className='flex flex-col gap-6 py-28 px-3 max-w-6xl mx-auto'>
+      <div className='flex flex-col gap-6 py-14 sm:py-28  px-3 max-w-6xl mx-auto'>
         
-        <h1 className='text-slate-700 font-bold text-3xl lg:text-6xl '>
+        <h1 className='text-slate-700 font-bold text-3xl md:text-4xl lg:text-6xl '>
           Find your next <span className='text-slate-500'>perfect</span> 
           <br />
           place with ease
@@ -98,11 +98,9 @@ export default function Home() {
         offerListings && offerListings.length > 0 && 
         offerListings.map((listing)=>(
 
-             <div key={listing._id}>
-                  <SwiperSlide>
+                  <SwiperSlide key={listing._id}>
                     <img src={listing.imageUrls[0]} className='h-[230px] sm:h-[350px] md:h-[400px] lg:h-[500px]  w-full ' style={{objectFit:'cover'}} alt="listing image" />
                   </SwiperSlide>    
-             </div>
     
         ))
       }
