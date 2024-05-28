@@ -54,7 +54,7 @@ export default function Listing() {
   
     return (
     <main>
-        {loading && <div className='loader mx-auto mt-52'></div>}
+        {loading && <div className='loader mx-auto mt-52 mb-80'></div>}
         {error && <p className='text-center my-7 text-2xl'>Something went wrong</p>}
 
         {listings && !error && !loading &&
