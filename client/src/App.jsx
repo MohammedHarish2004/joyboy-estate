@@ -13,6 +13,7 @@ import Dummy from './pages/Dummy'
 import UpdateListing from './pages/UpdateListing'
 import Listing from './pages/Listing'
 import Search from './pages/Search'
+import Footer from './components/Footer'
 export default function App() {
   return (
     <BrowserRouter>
@@ -32,6 +33,7 @@ export default function App() {
         <Route path='/dummy' element={<Dummy/>}/>
         <Route path='*' element={<Missing/>}/>
       </Routes>
+      <Footer />
     </BrowserRouter>
   )
 }
