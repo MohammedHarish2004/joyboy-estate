@@ -29,7 +29,6 @@ export default function App() {
         <Route path='/listing/:listingId' element={<Listing/>}/>
         <Route path='/sign-in' element={<SignIn/>}/>
         <Route path='/sign-up' element={<SignUp/>}/>
-        <Route path='/dummy' element={<Dummy/>}/>
         <Route path='*' element={<Missing/>}/>
       </Routes>
       <Footer />
