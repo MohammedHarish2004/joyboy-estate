@@ -10,7 +10,7 @@ export default function Search() {
     parking: false,
     furnished: false,
     offer: false,
-    sort: 'created_at',
+    sort: 'createdAt',
     order: 'desc',
   });
 
@@ -43,7 +43,7 @@ export default function Search() {
         parking: parkingFromUrl === 'true' ? true : false,
         furnished: furnishedFromUrl === 'true' ? true : false,
         offer: offerFromUrl === 'true' ? true : false,
-        sort: sortFromUrl || 'created_at',
+        sort: sortFromUrl || 'createdAt',
         order: orderFromUrl || 'desc',
       });
     }
@@ -92,7 +92,7 @@ export default function Search() {
     }
 
     if (e.target.id === 'sort_order') {
-      const sort = e.target.value.split('_')[0] || 'created_at';
+      const sort = e.target.value.split('_')[0] || 'createdAt';
 
       const order = e.target.value.split('_')[1] || 'desc';
 
@@ -128,8 +128,8 @@ export default function Search() {
     setListings([...listings, ...data]);
   };
   return (
-    <div className='flex flex-col md:flex-row'>
-      <div className='p-7  border-b-2 md:border-r-2 md:min-h-screen'>
+    <div className='flex flex-col lg:flex-row'>
+      <div className='p-7  border-b-2 lg:border-r-2 lg:min-h-screen'>
         <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
           <div className='flex items-center gap-2'>
             <label className='whitespace-nowrap font-semibold'>
@@ -214,7 +214,7 @@ export default function Search() {
             <label className='font-semibold'>Sort:</label>
             <select
               onChange={handleChange}
-              defaultValue={'created_at_desc'}
+              defaultValue={'createdAt_desc'}
               id='sort_order'
               className='border rounded-lg p-3'
             >
